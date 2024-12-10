@@ -1,5 +1,4 @@
 from django.db import connection
-from ..models import NhanVien
 import os
 class NhanVien:
     # --------------------read----------------------------------------------------
@@ -55,3 +54,4 @@ SELECT * FROM NhanVien x, NhanVienPartTime y\
     # ------------------------------------create-------------------------------
 
 
+# ---------------------------------hang hoa------------------------------------
