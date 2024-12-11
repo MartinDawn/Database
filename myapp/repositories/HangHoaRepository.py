@@ -1,6 +1,7 @@
 from django.db import connection
 import os, json
 import pyodbc
+from datetime import date, datetime
 from decimal import Decimal
 class HangHoa:
     # -------------------read-----------------------------------------
@@ -200,3 +201,23 @@ class HangHoa:
             return False
     
 # ------------------------------------------New---------------------------------------
+# HANG HOA MERCHANDISE
+        
+    @staticmethod
+    def hien_thi_hoa_don_khach_hang(ngay_bat_dau, ngay_ket_thuc):
+        with connection.cursor() as cursor:
+            query = "EXEC HienThiHoaDonKhachHang @NgayBatDau = %s, @NgayKetThuc = %s"
+            cursor.execute(query, [ngay_bat_dau, ngay_ket_thuc])
+            result = cursor.fetchall()
+            columns = [column[0] for column in cursor.description]
+            result_as_dict = [dict(zip(columns, row)) for row in result]
+            
+            # Chuyển đổi date thành chuỗi
+            for item in result_as_dict:
+                for key, value in item.items():
+                    if isinstance(value, date):
+                        item[key] = value.strftime('%Y-%m-%d')
+                    elif isinstance(value, datetime):
+                        item[key] = value.strftime('%Y-%m-%d %H:%M:%S')
+            
+            return json.dumps(result_as_dict, ensure_ascii=False)

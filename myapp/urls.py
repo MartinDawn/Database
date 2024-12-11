@@ -12,6 +12,10 @@ urlpatterns = [
     path('read_one_parttime_NhanVien/', NhanVien_views.read_one_parttime_NhanVien),
     path('read_one_fulltime_NhanVien/', NhanVien_views.read_one_fulltime_NhanVien),
 
+    path('addNhanVien/',NhanVien_views.them_nhan_vien),
+    path('updateNhanVien/',NhanVien_views.sua_nhan_vien),
+    path('deleteNhanVien/',NhanVien_views.xoa_nhan_vien),
+
     # hang hoa
     path('read_all_HangHoa/',HangHoaViews.readAllMerchandise),
     path('read_all_HangHoa/incr/',HangHoaViews.readAllMerchandiseAsIncr),
@@ -33,4 +37,6 @@ urlpatterns = [
     # Tính toán lợi nhuận
     path('calculate/calculateProfit/',RevenueViews.calculateProfit),
     path('calculate/performance/',RevenueViews.calculatePerformance),
+    # Hoa don
+    path('hoadon/',HangHoaViews.hien_thi_hoa_don_khach_hang),
 ]

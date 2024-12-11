@@ -198,3 +198,23 @@ def readShipmentAsMerchandiseId(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return HttpResponse(status=405)
+# ------------------------------Merchandise-----------------------------------
+
+@csrf_exempt
+def hien_thi_hoa_don_khach_hang(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            ngay_bat_dau = data.get('NgayBatDau')
+            ngay_ket_thuc = data.get('NgayKetThuc')
+            hoa_don_data = HangHoaRepository.HangHoa.hien_thi_hoa_don_khach_hang(ngay_bat_dau, ngay_ket_thuc)
+            hoa_don_data = json.loads(hoa_don_data)  # Chuyển đổi JSON chuỗi thành đối tượng Python
+            return JsonResponse({"HoaDon": hoa_don_data}, status=200)
+        except Exception as e:
+            e = str(e) # Tìm phần giữa của thông báo lỗi 
+            error_start = e.find('[SQL Server]') + len('[SQL Server]') 
+            error_end = e.find('(50000)', error_start) 
+            e = e[error_start:error_end].strip() 
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Phương thức không hợp lệ'}, status=405)
