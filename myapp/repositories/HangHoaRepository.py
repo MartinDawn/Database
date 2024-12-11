@@ -221,3 +221,16 @@ class HangHoa:
                         item[key] = value.strftime('%Y-%m-%d %H:%M:%S')
             
             return json.dumps(result_as_dict, ensure_ascii=False)
+
+    @staticmethod
+    def kiem_tra_hang_hoa_trong_kho(ma_kho_hang, so_luong_toi_thieu):
+        with connection.cursor() as cursor:
+            query = """
+                EXEC KiemTraHangHoaTrongKho @MaKhoHang=%s, @SoLuongToiThieu=%s
+            """
+            cursor.execute(query, [ma_kho_hang, so_luong_toi_thieu])
+            result = cursor.fetchall()
+            columns = [column[0] for column in cursor.description]
+            result_as_dict = [dict(zip(columns, row)) for row in result]
+            
+            return json.dumps(result_as_dict, ensure_ascii=False)

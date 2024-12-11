@@ -39,4 +39,6 @@ urlpatterns = [
     path('calculate/performance/',RevenueViews.calculatePerformance),
     # Hoa don
     path('hoadon/',HangHoaViews.hien_thi_hoa_don_khach_hang),
+    #  Kho hang
+    path('kiemtrakhoahang/',HangHoaViews.kiem_tra_hang_hoa_trong_kho)
 ]

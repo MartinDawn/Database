@@ -218,3 +218,23 @@ def hien_thi_hoa_don_khach_hang(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Phương thức không hợp lệ'}, status=405)
+
+
+@csrf_exempt
+def kiem_tra_hang_hoa_trong_kho(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            ma_kho_hang = data.get('MaKhoHang')
+            so_luong_toi_thieu = data.get('SoLuongToiThieu')
+            hang_hoa_data = HangHoaRepository.HangHoa.kiem_tra_hang_hoa_trong_kho(ma_kho_hang, so_luong_toi_thieu)
+            hang_hoa_data = json.loads(hang_hoa_data)  # Chuyển đổi JSON chuỗi thành đối tượng Python
+            return JsonResponse({"HangHoaTrongKho": hang_hoa_data}, status=200)
+        except Exception as e:
+            e = str(e) # Tìm phần giữa của thông báo lỗi 
+            error_start = e.find('[SQL Server]') + len('[SQL Server]') 
+            error_end = e.find('(50000)', error_start) 
+            e = e[error_start:error_end].strip() 
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Phương thức không hợp lệ'}, status=405)
