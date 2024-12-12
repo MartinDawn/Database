@@ -226,8 +226,8 @@ def kiem_tra_hang_hoa_trong_kho(request):
         try:
             data = json.loads(request.body)
             ma_kho_hang = data.get('MaKhoHang')
-            so_luong_toi_thieu = data.get('SoLuongToiThieu')
-            hang_hoa_data = HangHoaRepository.HangHoa.kiem_tra_hang_hoa_trong_kho(ma_kho_hang, so_luong_toi_thieu)
+            so_luong_toi_da = data.get('SoLuongToiDa')
+            hang_hoa_data = HangHoaRepository.HangHoa.kiem_tra_hang_hoa_trong_kho(ma_kho_hang, so_luong_toi_da)
             hang_hoa_data = json.loads(hang_hoa_data)  # Chuyển đổi JSON chuỗi thành đối tượng Python
             return JsonResponse({"HangHoaTrongKho": hang_hoa_data}, status=200)
         except Exception as e:

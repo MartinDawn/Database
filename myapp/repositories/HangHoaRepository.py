@@ -223,12 +223,12 @@ class HangHoa:
             return json.dumps(result_as_dict, ensure_ascii=False)
 
     @staticmethod
-    def kiem_tra_hang_hoa_trong_kho(ma_kho_hang, so_luong_toi_thieu):
+    def kiem_tra_hang_hoa_trong_kho(ma_kho_hang, so_luong_toi_da):
         with connection.cursor() as cursor:
             query = """
-                EXEC KiemTraHangHoaTrongKho @MaKhoHang=%s, @SoLuongToiThieu=%s
+                EXEC KiemTraHangHoaTrongKho @MaKhoHang=%s, @TongSoLuongToiDa=%s
             """
-            cursor.execute(query, [ma_kho_hang, so_luong_toi_thieu])
+            cursor.execute(query, [ma_kho_hang, so_luong_toi_da])
             result = cursor.fetchall()
             columns = [column[0] for column in cursor.description]
             result_as_dict = [dict(zip(columns, row)) for row in result]
